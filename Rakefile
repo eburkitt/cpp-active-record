@@ -68,7 +68,7 @@ end
 task :default => name
 
 Rake::Builder.new do | builder |
-  builder.task_namespace       = :test
+  builder.task_namespace       = "#{ name }_test".intern
   builder.target               = "./active_record_#{ name }_test"
   builder.architecture         = ARCHITECTURE
   builder.source_search_paths  = TEST_SOURCE_SEARCH_PATHS
