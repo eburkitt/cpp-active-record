@@ -41,6 +41,11 @@ task :help do
       $ PROFILED=1 rake
     Test only certain files:
       $ TEST_FILES=foo_test.cpp,bar_test.cpp
+    For postgresql tests:
+    - create a database called active_record_test
+    - arrange for password-less access (via .pg_pass)
+    - pass the name of the db owner on the command line:
+      $ PG_USER=foo DATABASE=postgresql ARCHITECTURE=i386 rake postgresql_i386_test:run
    EOT
 end
 
