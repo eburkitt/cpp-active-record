@@ -59,7 +59,6 @@ task :list_configurations do
 end
 
 Rake::Builder.new do | builder |
-  builder.task_namespace       = name.intern
   builder.target               = "libactive_record_#{ name }.a"
   builder.architecture         = ARCHITECTURE
   builder.source_search_paths  = [ 'src' ]
@@ -76,7 +75,7 @@ Rake::Builder.new do | builder |
   compilation_options          = [ "-DDATABASE=#{ DATABASE }" ]
   compilation_options          += [ "-DPG_USER=#{ ENV[ 'PG_USER' ] }" ] if DATABASE == 'postgresql' && ENV[ 'PG_USER' ]
 
-  builder.task_namespace       = "#{ name }_test".intern
+  builder.task_namespace       = :test
   builder.target               = "./active_record_#{ name }_test"
   builder.architecture         = ARCHITECTURE
   builder.source_search_paths  = TEST_SOURCE_SEARCH_PATHS
