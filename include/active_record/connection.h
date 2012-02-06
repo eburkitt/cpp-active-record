@@ -1,6 +1,7 @@
 #ifndef _ACTIVE_RECORD_CONNECTION_H_
 #define _ACTIVE_RECORD_CONNECTION_H_
 
+#include <active_record/active_record.h>
 #include <active_record/options.h>
 #include <active_record/type.h>
 #include <active_record/table.h>

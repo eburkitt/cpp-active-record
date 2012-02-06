@@ -1,15 +1,15 @@
-#ifndef _ACTIVE_RECORD_SQLITE3_CONNECTION_H_
-#define _ACTIVE_RECORD_SQLITE3_CONNECTION_H_
+#ifndef _ACTIVE_RECORD_CONNECTION_POSTGRESQL_H_
+#define _ACTIVE_RECORD_CONNECTION_POSTGRESQL_H_
 
-#include <sqlite3.h>
+#include <libpq-events.h>
 #include <active_record/connection.h>
 
 namespace ActiveRecord {
 
-class Sqlite3Connection : public Connection {
+class PostgresqlConnection : public Connection {
  public:
-  Sqlite3Connection();
-  virtual ~Sqlite3Connection();
+  PostgresqlConnection();
+  virtual ~PostgresqlConnection();
 
   virtual void  connect( OptionsHash options );
   virtual void  disconnect();
@@ -31,17 +31,11 @@ class Sqlite3Connection : public Connection {
   virtual RowSet        select_all( const string &query,
                                     const AttributeList &parameters = AttributeList() );
  private:
-  Sqlite3Connection( const Sqlite3Connection& other );
-  Sqlite3Connection operator=( const Sqlite3Connection& other );
-
-  bool           sqlite_initialize( string database_path_name );
-  static string  sqlite_error( int error_code );
-  sqlite3_stmt * prepare( const string &query, const AttributeList &parameters );
-  void           bind_parameters( sqlite3_stmt *ppStmt, const AttributeList &parameters );
-
-  sqlite3 *      db_;
+  PostgresqlConnection( const PostgresqlConnection& other );
+  PostgresqlConnection operator=( const PostgresqlConnection& other );
 };
 
 } // namespace ActiveRecord
 
-#endif // ndef _ACTIVE_RECORD_SQLITE3_CONNECTION_H_
+#endif // ndef _ACTIVE_RECORD_CONNECTION_POSTGRESQL_H_
+
