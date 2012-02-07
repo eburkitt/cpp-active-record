@@ -1,4 +1,5 @@
 #include "test_helper.h"
+#include <active_record/connection/sqlite3.h>
 #include <active_record/exception.h>
 #include <active_record/table.h>
 #include <active_record/query.h>
