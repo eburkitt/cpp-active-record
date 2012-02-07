@@ -88,7 +88,7 @@ Rake::Builder.new do | builder |
   builder.linker_options       = [ '-L.' ]
   builder.library_dependencies = [ 'gtest', "active_record_#{ name }" ] + configuration[ :libs ]
   builder.library_paths        = [ "." ]
-  builder.target_prerequisites = [ :"rake:#{ name }" ]
+  builder.target_prerequisites = [ :"rake:build" ]
   builder.default_task         = [ :run ]
   builder.compilation_options  = compilation_options
 end
