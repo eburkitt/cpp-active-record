@@ -55,9 +55,9 @@ task :list_configurations do
   puts '--------------+--------------+-------------------------'
   CONFIGURATIONS.each do | configuration |
     puts ' %- 13s| %- 13s| DATABASE=%s ARCHITECTURE=%s rake ...' % [ configuration[ :database ],
-                                                                   configuration[ :architecture ],
-                                                                   configuration[ :database ],
-                                                                   configuration[ :architecture ] ]
+                                                                     configuration[ :architecture ],
+                                                                     configuration[ :database ],
+                                                                     configuration[ :architecture ] ]
   end
 end
 
