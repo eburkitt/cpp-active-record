@@ -15,6 +15,12 @@ class Table;
 
 class Connection {
  public:
+  /* options:
+   *   database - database name (or file name for SQLite3)
+   *   username - (optional)
+   *   port     - (optional)
+   *   host     - (optional)
+   */
   virtual void  connect( OptionsHash options ) = 0;
   virtual void  disconnect()                   = 0;
   virtual bool  connected()                    = 0;

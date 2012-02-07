@@ -61,7 +61,7 @@ end
 Rake::Builder.new do | builder |
   builder.target               = "libactive_record_#{ name }.a"
   builder.architecture         = ARCHITECTURE
-  builder.source_search_paths  = [ 'src' ]
+  builder.source_search_paths  = [ 'src', 'src/connection' ]
   builder.installable_headers  = [ 'include/**/*.h' ]
   builder.objects_path         = "objects/#{ name }"
   builder.include_paths        = [ 'include' ]

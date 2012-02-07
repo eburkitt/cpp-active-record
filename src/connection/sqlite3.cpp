@@ -1,4 +1,4 @@
-#include <active_record/sqlite3_connection.h>
+#include <active_record/connection/sqlite3.h>
 
 namespace ActiveRecord {
 

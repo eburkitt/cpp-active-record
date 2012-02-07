@@ -8,6 +8,7 @@ namespace ActiveRecord {
 
 //////////////////////////////////
 // Tables
+
 void Connection::set_table( const string &class_name, const Table &table ) {
   log( "Connection::set_table" );
   log( class_name );

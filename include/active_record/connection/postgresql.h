@@ -1,7 +1,7 @@
 #ifndef _ACTIVE_RECORD_CONNECTION_POSTGRESQL_H_
 #define _ACTIVE_RECORD_CONNECTION_POSTGRESQL_H_
 
-#include <libpq-events.h>
+#include <libpq-fe.h>
 #include <active_record/connection.h>
 
 namespace ActiveRecord {
@@ -33,6 +33,8 @@ class PostgresqlConnection : public Connection {
  private:
   PostgresqlConnection( const PostgresqlConnection& other );
   PostgresqlConnection operator=( const PostgresqlConnection& other );
+
+  PGconn *  pgconn_;
 };
 
 } // namespace ActiveRecord
