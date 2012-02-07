@@ -20,7 +20,7 @@ configuration = CONFIGURATIONS.find { | c | c[ :database ] == DATABASE && c[ :ar
 raise "Unknown configuration: DATABASE=#{DATABASE} ARCHITECTURE=#{ARCHITECTURE}" if configuration.nil?
 
 if ENV['TEST_FILES']
-  TEST_SOURCE_SEARCH_PATHS = ENV['TEST_FILES'].split(',').map{ | f | 'test/#{f}'}
+  TEST_SOURCE_SEARCH_PATHS = ENV[ 'TEST_FILES' ].split( ',' ).map{ | f | "test/#{f}" }
   TEST_OBJECTS_PATH        = "#{ name }_partial_test"
 else
   TEST_SOURCE_SEARCH_PATHS = [ 'test' ]
