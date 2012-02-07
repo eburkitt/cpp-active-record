@@ -51,10 +51,13 @@ end
 
 desc 'List available configurations'
 task :list_configurations do
-  puts 'DATABASE            | ARCHITECTURE'
-  puts '--------------------+-----------------------'
+  puts ' DATABASE     | ARCHITECTURE | INVOCATION'
+  puts '--------------+--------------+-------------------------'
   CONFIGURATIONS.each do | configuration |
-    puts '%- 19s | %s' % [ configuration[ :database ], configuration[ :architecture ] ]
+    puts ' %- 13s| %- 13s| DATABASE=%s ARCHITECTURE=%s rake ...' % [ configuration[ :database ],
+                                                                   configuration[ :architecture ],
+                                                                   configuration[ :database ],
+                                                                   configuration[ :architecture ] ]
   end
 end
 
