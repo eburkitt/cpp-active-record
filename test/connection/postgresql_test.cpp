@@ -5,6 +5,7 @@
  *      and that the supplied user can access that database
  *      and can create new databases */
 
+/*
 class PostgresqlConnectionTest : public ::testing::Test {
  protected:
   virtual void SetUp() {
@@ -63,20 +64,28 @@ TEST_F( PostgresqlConnectionTest, DropDatabase ) {
   );
   ASSERT_FALSE( postgresql_shell_database_exists( "active_record_postgresql_test", Q(PG_USER) ) );
 }
+*/
 
-/*
-class PostgresqlExecuteTest : public ::testing::Test {
+class PostgresqlWithConnectionTest : public ::testing::Test {
+ protected:
+  virtual void SetUp() {
+    postgresql_shell_create_database( "active_record_postgresql_test", "template1", Q(PG_USER) );
+    connection.connect( options
+                        ( "database", "active_record_postgresql_test" )
+                        ( "username", Q(PG_USER) ) );
+   }
+  virtual void TearDown() {
+    connection.disconnect();
+    postgresql_shell_drop_database( "active_record_postgresql_test", Q(PG_USER) );
+  }
+ protected:
+  PostgresqlConnection connection;
 };
 
-TEST_F( PostgresqlExecuteTest, ExecuteSelectQuery ) {
-  postgresql_shell_create_database( "active_record_postgresql_test", "template1", Q(PG_USER) );
-  ActiveRecord::set_debug( true );
-  PostgresqlConnection connection;
-  connection.connect( options
-                      ( "database", "active_record_postgresql_test" )
-                      ( "username", Q(PG_USER) ) );
-  Row row = connection.select_one( "SELECT * FROM my_table" );
-  ASSERT_TRUE( row.has_data() );
-}
-*/
+TEST_F( PostgresqlWithConnectionTest, TableExists ) {
+  connection.execute( "CREATE TABLE foo ()" );
+
+  ASSERT_TRUE( connection.table_exists( "foo" ) );
+  ASSERT_FALSE( connection.table_exists( "bar" ) );
+} 
 

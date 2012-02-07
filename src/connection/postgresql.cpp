@@ -75,7 +75,12 @@ bool PostgresqlConnection::connected() {
 }
 
 bool PostgresqlConnection::table_exists( const string &table_name ) {
-  return false;
+  string query = \
+    "SELECT c.relname as table       \
+     FROM pg_catalog.pg_class c      \
+     WHERE c.relname = '" + table_name + "'";
+  Row row = select_one( query );
+  return row.has_data();
 }
 
 bool PostgresqlConnection::execute( const string &query,
