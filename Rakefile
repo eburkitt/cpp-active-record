@@ -4,7 +4,7 @@ DEFAULT_DATABASE     = 'sqlite3'
 DEFAULT_ARCHITECTURE = 'x86_64'
 
 CONFIGURATIONS = [
-  { :database => 'postgresql', :architecture => 'i386',   :libs => [ 'pq' ] },
+  { :database => 'postgresql', :architecture => 'x86_64', :libs => [ 'pq' ] },
   { :database => 'sqlite3',    :architecture => 'i386',   :libs => [ 'sqlite3' ] },
   { :database => 'sqlite3',    :architecture => 'x86_64', :libs => [ 'sqlite3' ] },
 ]
