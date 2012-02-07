@@ -27,13 +27,13 @@ task :help do
   puts <<-EOT
     Build for profiling:
       $ PROFILED=1 rake
-    Test only certain files:
-      $ TEST_FILES=foo_test.cpp,bar_test.cpp rake test:run
     When running test, set up postgresql:
     - arrange for password-less access (via .pg_pass)
     - pass the name of a user on the command line:
       $ PG_USER=foo rake test:run
       the user must have the necessary privileges to create databases
+    Test only certain files:
+      $ TEST_FILES=foo_test.cpp,bar_test.cpp rake test:run
    EOT
 end
 
