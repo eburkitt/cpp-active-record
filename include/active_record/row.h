@@ -11,6 +11,7 @@
 #include <active_record/date.h>
 #include <active_record/attribute.h>
 #include <sqlite3.h>
+#include <libpq-fe.h>
 
 using namespace std;
 
@@ -21,6 +22,7 @@ class Row {
  public:
   Row() {};
   Row( sqlite3_stmt *ppStmt );
+  Row( PGresult *exec_result, int index );
   bool   has_data()                 { return attributes_.size() > 0; };
   Type   get_type( const string &name );
   bool   is_type( const string &name, Type type );

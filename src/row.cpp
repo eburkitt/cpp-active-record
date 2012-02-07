@@ -1,5 +1,8 @@
 #include <active_record/row.h>
+
 #include <sstream>
+
+#include <active_record/active_record.h>
 #include <active_record/type.h>
 #include <active_record/exception.h>
 
@@ -10,6 +13,15 @@ Row::Row( sqlite3_stmt *pStmt ) {
   for( int i = 0; i < count; ++i ) {
     string name = sqlite3_column_name(pStmt, i);
     attributes_[ name ] = Attribute::from_field( pStmt, i );
+  }
+}
+
+Row::Row( PGresult *exec_result, int index ) {
+  int field_count = PQnfields( exec_result );
+  for( int i = 0; i < field_count; ++i ) {
+    string name = PQfname( exec_result, i );
+    log( name );
+    attributes_[ name ] = "";
   }
 }
 

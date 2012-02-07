@@ -11,12 +11,24 @@ class PostgresqlConnection : public Connection {
   PostgresqlConnection();
   virtual ~PostgresqlConnection();
 
+  /* 
+   * connection - an existing database connect to be used to issue the CREATE DATABASE command
+   * options:
+   *   database   - the name of the database to be created (or file name for SQLite3)
+   *   owner      - (optional)
+   *   template   - (optional)
+   */
+  static bool           create( PostgresqlConnection &connection, OptionsHash options );
+  static void           drop( PostgresqlConnection & connection, const string &database_name );
+  static bool           database_exists( PostgresqlConnection & connection,
+                                         const string &database_name );
+
   virtual void  connect( OptionsHash options );
   virtual void  disconnect();
   virtual bool  connected();
 
   // Database Structure
-  virtual bool  table_exists( const string &table_name );
+  virtual bool          table_exists( const string &table_name );
   // Queries
   virtual bool          execute( const string &query,
                                  const AttributeList &parameters = AttributeList() );
@@ -33,6 +45,9 @@ class PostgresqlConnection : public Connection {
  private:
   PostgresqlConnection( const PostgresqlConnection& other );
   PostgresqlConnection operator=( const PostgresqlConnection& other );
+
+  bool                  is_error( PGresult *exec_result );
+  void                  log_error( PGresult *exec_result );
 
   PGconn *  pgconn_;
 };

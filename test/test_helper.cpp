@@ -1,6 +1,9 @@
 #include "test_helper.h"
+
 #include <sstream>
 #include <stdio.h>
+
+#include <active_record/active_record.h>
 
 AR_DECLARE( Person )
 
@@ -16,6 +19,43 @@ void connect_database( ActiveRecord::Connection &connection,
 void delete_database() {
   string remove_database = "rm -f " + database_name;
   system( remove_database.c_str() );
+}
+
+void postgresql_shell_create_database( const string &create_database_name,
+                                       const string &access_database_name,
+                                       const string &database_user ) {
+  string command = "echo 'CREATE DATABASE " + create_database_name + "' | psql -U " + database_user + " " + access_database_name + " >/dev/null";
+  system( command.c_str() );
+}
+
+void postgresql_shell_drop_database( const string &database_name, const string &database_user ) {
+  if( ! postgresql_shell_database_exists( database_name, database_user ) )
+    return;
+  string command = "echo 'DROP DATABASE " + database_name + "' | psql -U " + database_user + " >/dev/null";
+  system( command.c_str() );
+}
+
+bool postgresql_shell_database_exists( const string &database_name, const string &database_user ) {
+  string command = "psql -U " + database_user + " -l | grep " + database_name;
+  list< string > output = shell_command( command );
+  return output.size() > 0 ? true : false;
+}
+
+list< string > shell_command( const string &command ) {
+  FILE *pipe = popen( command.c_str(), "r" );
+  if( !pipe )
+    throw "Failed to open pipe";
+
+  list< string > output;
+  char buffer[ 100 ];
+  while( fgets( buffer, 100, pipe ) != NULL ) {
+    string line = buffer;
+    log( "line" );
+    log( line );
+    output.push_back( line );
+  }
+  pclose( pipe );
+  return output;
 }
 
 string table_definition( Connection &connection, const string &table_name ) {

@@ -5,7 +5,12 @@
 #include "models.h"
 #include <active_record/exception.h>
 
+#define QUOTE(str) #str
+#define Q(str) QUOTE(str)
+
 using namespace std;
+
+list< string > shell_command( const string &command );
 
 void connect_database( Connection &connection, const string &database_name );
 void delete_database();
@@ -25,5 +30,12 @@ void assert_field_type( Table &td, int field_index, ActiveRecord::Type type );
 void assert_field( Table &td, int field_index, const string &name, ActiveRecord::Type type );
 void assert_file_exists( const string &file_name );
 void assert_file_non_zero_length( const string &file_name );
+
+// postgresql helpers
+void postgresql_shell_create_database( const string &create_database_name,
+                                       const string &access_database_name,
+                                       const string &database_user );
+void postgresql_shell_drop_database( const string &database_name, const string &database_user );
+bool postgresql_shell_database_exists( const string &database_name, const string &database_user );
 
 #endif // ndef _ACTIVE_RECORD_TEST_HELPER_H_

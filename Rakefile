@@ -4,7 +4,7 @@ DEFAULT_DATABASE     = 'sqlite3'
 DEFAULT_ARCHITECTURE = 'x86_64'
 
 CONFIGURATIONS = [
-  { :database => 'postgresql', :architecture => 'x86_64', :libs => [ 'pq' ] },
+  { :database => 'postgresql', :architecture => 'x86_64', :libs => [ 'pq', 'sqlite3' ] },
   { :database => 'sqlite3',    :architecture => 'i386',   :libs => [ 'sqlite3' ] },
   { :database => 'sqlite3',    :architecture => 'x86_64', :libs => [ 'sqlite3' ] },
 ]
@@ -19,8 +19,10 @@ name          += '_profiled'                  if PROFILED
 configuration = CONFIGURATIONS.find { | c | c[ :database ] == DATABASE && c[ :architecture ] == ARCHITECTURE }
 raise "Unknown configuration: DATABASE=#{DATABASE} ARCHITECTURE=#{ARCHITECTURE}" if configuration.nil?
 
+raise "Supply a PG_USER for tests" if DATABASE == 'postgresql' && ENV[ 'PG_USER' ].nil?
+
 if ENV['TEST_FILES']
-  TEST_SOURCE_SEARCH_PATHS = [ 'test/main.cpp' ] + ENV[ 'TEST_FILES' ].split( ',' ).map{ | f | "test/#{f}" }
+  TEST_SOURCE_SEARCH_PATHS = [ 'test/main.cpp', 'test/test_helper.cpp' ] + ENV[ 'TEST_FILES' ].split( ',' ).map{ | f | "test/#{f}" }
   TEST_OBJECTS_PATH        = "#{ name }_partial_test"
 else
   TEST_SOURCE_SEARCH_PATHS = [ 'test' ]

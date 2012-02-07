@@ -11,6 +11,7 @@ class Sqlite3Connection : public Connection {
   Sqlite3Connection();
   virtual ~Sqlite3Connection();
 
+  virtual void  create( OptionsHash options );
   virtual void  connect( OptionsHash options );
   virtual void  disconnect();
   virtual bool  connected();
