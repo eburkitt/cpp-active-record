@@ -18,14 +18,14 @@ class PostgresqlConnection : public Connection {
    *   owner      - (optional)
    *   template   - (optional)
    */
-  static bool           create( PostgresqlConnection &connection, OptionsHash options );
-  static void           drop( PostgresqlConnection & connection, const string &database_name );
+  static bool           create_database( PostgresqlConnection &connection, OptionsHash options );
+  static void           drop_database( PostgresqlConnection & connection, const string &database_name );
   static bool           database_exists( PostgresqlConnection & connection,
                                          const string &database_name );
 
-  virtual void  connect( OptionsHash options );
-  virtual void  disconnect();
-  virtual bool  connected();
+  virtual void          connect( OptionsHash options );
+  virtual void          disconnect();
+  virtual bool          connected();
 
   // Database Structure
   virtual bool          table_exists( const string &table_name );
@@ -49,7 +49,7 @@ class PostgresqlConnection : public Connection {
   bool                  is_error( PGresult *exec_result );
   void                  log_error( PGresult *exec_result );
 
-  PGconn *  pgconn_;
+  PGconn *              pgconn_;
 };
 
 } // namespace ActiveRecord
