@@ -4,6 +4,7 @@
 *.sqlite3
 /.rake-builder*
 /autom4te.cache/
+active_record_*_test
 /.bundle/
 /config.h
 /config.log
@@ -15,5 +16,6 @@
 /objects_*
 /stamp-h1
 /test/objects_*
+objects
 /vendor/
 
