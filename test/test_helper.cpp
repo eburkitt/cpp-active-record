@@ -21,26 +21,6 @@ void delete_database() {
   system( remove_database.c_str() );
 }
 
-void postgresql_shell_create_database( const string &create_database_name,
-                                       const string &access_database_name,
-                                       const string &database_user ) {
-  string command = "echo 'CREATE DATABASE " + create_database_name + "' | psql -U " + database_user + " " + access_database_name + " >/dev/null";
-  system( command.c_str() );
-}
-
-void postgresql_shell_drop_database( const string &database_name, const string &database_user ) {
-  if( ! postgresql_shell_database_exists( database_name, database_user ) )
-    return;
-  string command = "echo 'DROP DATABASE " + database_name + "' | psql -U " + database_user + " >/dev/null";
-  system( command.c_str() );
-}
-
-bool postgresql_shell_database_exists( const string &database_name, const string &database_user ) {
-  string command = "psql -U " + database_user + " -l | grep " + database_name;
-  list< string > output = shell_command( command );
-  return output.size() > 0 ? true : false;
-}
-
 list< string > shell_command( const string &command ) {
   FILE *pipe = popen( command.c_str(), "r" );
   if( !pipe )
@@ -152,3 +132,31 @@ void assert_field( Table &td,
   assert_field_name( td, field_index, name );
   assert_field_type( td, field_index, type );
 }
+
+void postgresql_shell_command( const string& database_name, const string &database_user, const string &query ) {
+  string command = "echo '" + query + "' | psql -U " + database_user + " " + database_name + " >/dev/null";
+  system( command.c_str() );
+}
+
+void postgresql_shell_create_database( const string &create_database_name,
+                                       const string &access_database_name,
+                                       const string &database_user ) {
+  string query = "CREATE DATABASE " + create_database_name;
+  postgresql_shell_command( access_database_name, database_user, query );
+}
+
+void postgresql_shell_drop_database( const string &drop_database_name,
+                                     const string &access_database_name,
+                                     const string &database_user ) {
+  if( ! postgresql_shell_database_exists( drop_database_name, database_user ) )
+    return;
+  string query = "DROP DATABASE " + database_name;
+  postgresql_shell_command( access_database_name, database_user, query );
+}
+
+bool postgresql_shell_database_exists( const string &database_name, const string &database_user ) {
+  string command = "psql -U " + database_user + " -l | grep " + database_name;
+  list< string > output = shell_command( command );
+  return output.size() > 0 ? true : false;
+}
+
