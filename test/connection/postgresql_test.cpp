@@ -44,15 +44,10 @@ class PostgresqlWithConnectionTest : public ::testing::Test {
   PostgresqlConnection connection;
 };
 
-TEST_F( PostgresqlWithConnectionTest, DatabaseExists ) {
-  ASSERT_TRUE( PostgresqlConnection::database_exists( connection, "template1" ) );
-  ASSERT_FALSE( PostgresqlConnection::database_exists( connection, "database_that_does_not_exist" ) );
-}
-
 TEST_F( PostgresqlWithConnectionTest, CreateDatabase ) {
-  bool created = PostgresqlConnection::create( connection, options
-                                                           ( "database", "active_record_postgresql_test" )
-                                                           ( "owner",    Q(PG_USER) ) );
+  bool created = PostgresqlConnection::create_database( connection, options
+                                                                    ( "database", "active_record_postgresql_test" )
+                                                                    ( "owner",    Q(PG_USER) ) );
   ASSERT_TRUE( created );
 }
 
@@ -61,9 +56,14 @@ TEST_F( PostgresqlWithConnectionTest, DropDatabase ) {
   ASSERT_TRUE( postgresql_shell_database_exists( "active_record_postgresql_test", Q(PG_USER) ) );
 
   ASSERT_NO_THROW(
-    PostgresqlConnection::drop( connection, "active_record_postgresql_test" )
+    PostgresqlConnection::drop_database( connection, "active_record_postgresql_test" )
   );
   ASSERT_FALSE( postgresql_shell_database_exists( "active_record_postgresql_test", Q(PG_USER) ) );
+}
+
+TEST_F( PostgresqlWithConnectionTest, DatabaseExists ) {
+  ASSERT_TRUE( PostgresqlConnection::database_exists( connection, "template1" ) );
+  ASSERT_FALSE( PostgresqlConnection::database_exists( connection, "database_that_does_not_exist" ) );
 }
 
 TEST_F( PostgresqlWithConnectionTest, TableExists ) {

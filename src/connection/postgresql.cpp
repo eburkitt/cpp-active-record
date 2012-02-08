@@ -14,7 +14,7 @@ PostgresqlConnection PostgresqlConnection::operator=( const PostgresqlConnection
   return *this;
 }
 
-bool PostgresqlConnection::create( PostgresqlConnection & connection, OptionsHash options ) {
+bool PostgresqlConnection::create_database( PostgresqlConnection & connection, OptionsHash options ) {
   stringstream create_stream;
   create_stream << "CREATE DATABASE " << options[ "database" ] << " ";
   if( options.find( "owner" ) != options.end() )
@@ -27,7 +27,7 @@ bool PostgresqlConnection::create( PostgresqlConnection & connection, OptionsHas
   return connection.execute( create_stream.str() );
 }
 
-void PostgresqlConnection::drop( PostgresqlConnection & connection, const string &database_name ) {
+void PostgresqlConnection::drop_database( PostgresqlConnection & connection, const string &database_name ) {
   stringstream query;
   query << "DROP DATABASE " << database_name << ";";
   connection.execute( query.str() );
