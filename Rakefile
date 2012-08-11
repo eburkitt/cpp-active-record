@@ -44,7 +44,6 @@ Rake::Builder.new do | builder |
   builder.installable_headers  = [ 'include/**/*.h' ]
   builder.objects_path         = "objects/#{ name }"
   builder.include_paths        = [ 'include' ]
-  builder.library_dependencies = [ 'pq', 'sqlite3' ]
   builder.compilation_options  = [ '-pg' ] if PROFILED
 end
 
@@ -59,7 +58,7 @@ Rake::Builder.new do | builder |
   builder.objects_path         = "test/objects/#{ TEST_OBJECTS_PATH }"
   builder.include_paths        = [ 'include', 'test' ]
   builder.linker_options       = [ '-L.' ]
-  builder.library_dependencies = [ 'gtest', "active_record_#{ name }" ] + configuration[ :libs ]
+  builder.library_dependencies = [ 'gtest', "active_record_#{ name }", 'pq', 'sqlite3' ]
   builder.library_paths        = [ "." ]
   builder.target_prerequisites = [ :"rake:build" ]
   builder.default_task         = :run
