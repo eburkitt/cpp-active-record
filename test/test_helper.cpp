@@ -30,8 +30,6 @@ list< string > shell_command( const string &command ) {
   char buffer[ 100 ];
   while( fgets( buffer, 100, pipe ) != NULL ) {
     string line = buffer;
-    log( "line" );
-    log( line );
     output.push_back( line );
   }
   pclose( pipe );

@@ -11,7 +11,6 @@ namespace ActiveRecord {
 extern TypeNameMap type_name;
 
 void Table::add_field( const Field &field ) {
-  log( "add_field" );
   assert_connection( __FILE__, __LINE__ );
   stringstream ss;
   ss << "ALTER TABLE " << table_name_;
