@@ -29,7 +29,7 @@ TEST_F( PostgresqlConnectionTest, ConnectToNonExistentDatabase ) {
     ActiveRecord::ActiveRecordException );
 }
 
-class PostgresqlWithConnectionTest : public ::testing::Test {
+class PostgresqlDatabasesTest : public ::testing::Test {
  protected:
   virtual void SetUp() {
     postgresql_shell_drop_database( "active_record_test_connection_database", "template1", Q(PG_USER) );
@@ -48,7 +48,7 @@ class PostgresqlWithConnectionTest : public ::testing::Test {
   PostgresqlConnection connection;
 };
 
-TEST_F( PostgresqlWithConnectionTest, CreateDatabase ) {
+TEST_F(PostgresqlDatabasesTest, CreateDatabase ) {
   bool created = PostgresqlConnection::create_database( connection, options
                                                                     ( "database", "active_record_test_create_database" )
                                                                     ( "owner",    Q(PG_USER) ) );
@@ -56,7 +56,7 @@ TEST_F( PostgresqlWithConnectionTest, CreateDatabase ) {
   ASSERT_TRUE(postgresql_shell_database_exists("active_record_test_create_database", Q(PG_USER)));
 }
 
-TEST_F( PostgresqlWithConnectionTest, DropDatabase ) {
+TEST_F(PostgresqlDatabasesTest, DropDatabase ) {
   postgresql_shell_create_database( "active_record_test_drop_database", "template1", Q(PG_USER) );
   ASSERT_TRUE( postgresql_shell_database_exists( "active_record_test_drop_database", Q(PG_USER) ) );
 
@@ -66,12 +66,12 @@ TEST_F( PostgresqlWithConnectionTest, DropDatabase ) {
   ASSERT_FALSE( postgresql_shell_database_exists( "active_record_test_drop_database", Q(PG_USER) ) );
 }
 
-TEST_F( PostgresqlWithConnectionTest, DatabaseExists ) {
+TEST_F(PostgresqlDatabasesTest, DatabaseExists ) {
   ASSERT_TRUE( PostgresqlConnection::database_exists( connection, "template1" ) );
   ASSERT_FALSE( PostgresqlConnection::database_exists( connection, "database_that_does_not_exist" ) );
 }
 
-TEST_F( PostgresqlWithConnectionTest, TableExists ) {
+TEST_F(PostgresqlDatabasesTest, TableExists ) {
   postgresql_shell_command( "active_record_test_connection_database", Q(PG_USER), "CREATE TABLE foo ()" );
 
   ASSERT_TRUE( connection.table_exists( "foo" ) );
