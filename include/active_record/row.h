@@ -7,11 +7,12 @@
 #include <iostream>
 #include <boost/assign.hpp>
 #include <boost/variant.hpp>
+#include <sqlite3.h>
+#include <postgresql/libpq-fe.h>
+
 #include <active_record/type.h>
 #include <active_record/date.h>
 #include <active_record/attribute.h>
-#include <sqlite3.h>
-#include <libpq-fe.h>
 
 using namespace std;
 
