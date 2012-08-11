@@ -15,11 +15,11 @@ end
 raise "Supply a PG_USER for tests" if running_tests && ENV[ 'PG_USER' ].nil?
 
 if ENV['TEST_FILES']
+  TEST_NAME                = "partial_#{name}_test"
   TEST_SOURCE_SEARCH_PATHS = [ 'test/main.cpp', 'test/test_helper.cpp' ] + ENV[ 'TEST_FILES' ].split( ',' ).map{ | f | "test/#{f}" }
-  TEST_OBJECTS_PATH        = "#{ name }_partial_test"
 else
+  TEST_NAME                = "#{name}_test"
   TEST_SOURCE_SEARCH_PATHS = [ 'test', 'test/connection' ]
-  TEST_OBJECTS_PATH        = "#{ name }_test"
 end
 
 desc 'Print help information for this Rakefile'
@@ -51,11 +51,11 @@ task :default => 'build'
 
 Rake::Builder.new do | builder |
   builder.task_namespace       = :test
-  builder.target               = "./active_record_#{ name }_test"
+  builder.target               = "./active_record_#{ TEST_NAME }"
   builder.architecture         = ARCHITECTURE
   builder.source_search_paths  = TEST_SOURCE_SEARCH_PATHS
   builder.installable_headers  = [ 'test' ]
-  builder.objects_path         = "test/objects/#{ TEST_OBJECTS_PATH }"
+  builder.objects_path         = "test/objects/#{ TEST_NAME }"
   builder.include_paths        = [ 'include', 'test' ]
   builder.linker_options       = [ '-L.' ]
   builder.library_dependencies = [ 'gtest', "active_record_#{ name }", 'pq', 'sqlite3' ]
