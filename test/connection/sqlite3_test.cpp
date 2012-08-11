@@ -22,13 +22,8 @@ TEST_F( ConnectionTest, ConnectNewDatabase ) {
 }
 
 TEST_F( ConnectionTest, ConnectExistingDatabase ) {
-<<<<<<< HEAD
   pipe_to_sqlite(database_name, "CREATE TABLE foo (bar INTEGER);");
-  Connection connection;
-=======
-  pipe_to_sqlite( database_name, "CREATE TABLE foo (bar INTEGER);" );
   Sqlite3Connection connection;
->>>>>>> Refectored SQLite stuff into subclass
   ASSERT_NO_THROW( {
       connection.connect( options
                           ( "adapter", "sqlite" )
