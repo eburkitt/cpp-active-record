@@ -4,6 +4,7 @@
 #include <iostream> // For debugging
 #include <map>
 #include <string>
+
 using namespace std;
 
 namespace ActiveRecord {
