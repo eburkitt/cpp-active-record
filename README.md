@@ -74,6 +74,15 @@ Ubuntu:
     make
     make install
 
+Development
+===========
+
+Turn on runtime logging:
+
+```c++
+ActiveRecord::set_debug(true);
+```
+
 Maintenance
 ===========
 
