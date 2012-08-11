@@ -31,7 +31,7 @@ void PostgresqlConnection::drop_database( PostgresqlConnection & connection, con
   stringstream query;
   query << "DROP DATABASE " << database_name << ";";
   connection.execute( query.str() );
- }
+}
 
 bool PostgresqlConnection::database_exists( PostgresqlConnection & connection,
                                             const string &database_name ) {
