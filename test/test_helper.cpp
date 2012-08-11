@@ -131,9 +131,9 @@ void assert_field( Table &td,
   assert_field_type( td, field_index, type );
 }
 
-void postgresql_shell_command( const string& database_name, const string &database_user, const string &query ) {
-  string command = "echo '" + query + "' | psql -U " + database_user + " " + database_name + " >/dev/null";
-  system( command.c_str() );
+strings postgresql_shell_command( const string& database_name, const string &database_user, const string &query ) {
+  string command = "echo '" + query + "' | psql -U " + database_user + " " + database_name;
+  return shell_command(command.c_str());
 }
 
 void postgresql_shell_create_database( const string &create_database_name,

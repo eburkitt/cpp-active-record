@@ -10,7 +10,9 @@
 
 using namespace std;
 
-list< string > shell_command( const string &command );
+typedef list<string> strings;
+
+strings shell_command( const string &command );
 
 void connect_database( Connection &connection, const string &database_name );
 void delete_database();
@@ -32,7 +34,7 @@ void assert_file_exists( const string &file_name );
 void assert_file_non_zero_length( const string &file_name );
 
 // postgresql helpers
-void postgresql_shell_command( const string& database_name, const string &database_user, const string &query );
+strings postgresql_shell_command( const string& database_name, const string &database_user, const string &query );
 void postgresql_shell_create_database( const string &create_database_name,
                                        const string &access_database_name,
                                        const string &database_user );
