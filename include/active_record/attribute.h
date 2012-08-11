@@ -6,9 +6,10 @@
 #include <boost/assign.hpp>
 #include <boost/variant.hpp>
 #include <boost/assign/list_of.hpp>
+#include <sqlite3.h>
+
 #include <active_record/type.h>
 #include <active_record/date.h>
-#include <sqlite3.h>
 
 using namespace std;
 using namespace boost::assign;
