@@ -23,6 +23,11 @@ typedef boost::variant< int, string, double, Date > AttributeType;
 class Attribute : public AttributeType {
  friend class Connection;
  friend class Row;
+ // static
+ public:
+  static Attribute from_field( sqlite3_stmt *pStmt, int i );
+
+ // instance methods
  public:
   Attribute() :                  AttributeType(), initialised_( false ) {}
   Attribute( int i ) :           AttributeType( i ), initialised_( true ) {}
@@ -36,8 +41,6 @@ class Attribute : public AttributeType {
   bool operator==( const Attribute& other ) const;
 
  private:
-  static Attribute from_field( sqlite3_stmt *pStmt, int i );
-
   bool initialised_;
 };
 
