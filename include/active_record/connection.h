@@ -42,8 +42,8 @@ class Connection {
                                 const AttributeList &parameters = AttributeList() )        = 0;
   //virtual Attribute     select_value( const string &query,
   //                                    const AttributeList &parameters = AttributeList() )  = 0;
-  //virtual AttributeList select_values( const string &query,
-  //                                     const AttributeList &parameters = AttributeList() ) = 0;
+  virtual AttributeList select_values( const string &query,
+                                       const AttributeList &parameters = AttributeList() ) = 0;
   virtual Row           select_one( const string &query,
                                     const AttributeList &parameters = AttributeList() )    = 0;
   virtual RowSet        select_all( const string &query,

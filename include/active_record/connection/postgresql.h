@@ -36,8 +36,8 @@ class PostgresqlConnection : public Connection {
                                 const AttributeList &parameters = AttributeList() );
   //virtual Attribute     select_value( const string &query,
   //                                    const AttributeList &parameters = AttributeList() );
-  //virtual AttributeList select_values( const string &query,
-  //                                     const AttributeList &parameters = AttributeList() );
+  virtual AttributeList select_values( const string &query,
+                                       const AttributeList &parameters = AttributeList() );
   virtual Row           select_one( const string &query,
                                     const AttributeList &parameters = AttributeList() );
   virtual RowSet        select_all( const string &query,

@@ -132,6 +132,12 @@ RowSet PostgresqlConnection::select_all( const string &query,
   return results;
 }
 
+AttributeList PostgresqlConnection::select_values( const string &query,
+					 const AttributeList &parameters ) {
+  AttributeList results;
+  return results;
+}
+
 bool PostgresqlConnection::is_error( PGresult *exec_result ) {
   ExecStatusType status = PQresultStatus( exec_result );
   return ( status != PGRES_COMMAND_OK && status != PGRES_TUPLES_OK ) ? false : true;
