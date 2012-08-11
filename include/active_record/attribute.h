@@ -14,6 +14,8 @@ using namespace std;
 using namespace boost::assign;
 using namespace boost;
 
+namespace ActiveRecord {
+
 typedef boost::variant< int, string, double, Date > AttributeType;
 
 // N.B. boost::variant.which() returns a 0-based index into the AttributeType list
