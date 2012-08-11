@@ -46,7 +46,7 @@ class ReadSchemaTest : public ::testing::Test {
  protected:
   virtual void SetUp() {
     delete_database();
-    connect_database(connection, database_file);
+    connect_database(connection, database_name);
     connection.execute("CREATE TABLE foo (bar INTEGER, baz TEXT, qux FLOAT, derp DATE);");
   }
   virtual void TearDown() {
@@ -113,7 +113,7 @@ class TableSetUpdateDatabaseTest : public ::testing::Test {
  protected:
   virtual void SetUp() {
     delete_database();
-    connect_database( connection, database_file );
+    connect_database( connection, database_name );
     connection.execute("CREATE TABLE foo (bar INTEGER);");
   }
   virtual void TearDown() {
