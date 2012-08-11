@@ -148,7 +148,7 @@ void postgresql_shell_drop_database( const string &drop_database_name,
                                      const string &database_user ) {
   if( ! postgresql_shell_database_exists( drop_database_name, database_user ) )
     return;
-  string query = "DROP DATABASE " + database_name;
+  string query = "DROP DATABASE " + drop_database_name;
   postgresql_shell_command( access_database_name, database_user, query );
 }
 
