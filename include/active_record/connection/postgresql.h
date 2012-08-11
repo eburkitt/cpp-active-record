@@ -1,7 +1,7 @@
 #ifndef _ACTIVE_RECORD_CONNECTION_POSTGRESQL_H_
 #define _ACTIVE_RECORD_CONNECTION_POSTGRESQL_H_
 
-#include <libpq-fe.h>
+#include <postgresql/libpq-fe.h>
 #include <active_record/connection.h>
 
 namespace ActiveRecord {
