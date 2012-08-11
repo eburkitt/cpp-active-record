@@ -1,6 +1,7 @@
 #include <active_record/row.h>
 
 #include <sstream>
+#include <sqlite3.h>
 
 #include <active_record/active_record.h>
 #include <active_record/type.h>
