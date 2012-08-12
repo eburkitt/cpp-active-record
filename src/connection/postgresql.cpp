@@ -99,14 +99,20 @@ long PostgresqlConnection::insert( const string &query,
                          const AttributeList &parameters ) {
   log( "PostgresqlConnection::insert" );
   log( query );
-  return 0;
+  bool success = execute(query, parameters);
+  if(!success)
+    throw ActiveRecordException("Insert failed", __FILE__, __LINE__);
+  Attribute last_insert_id = select_value("SELECT LASTVAL()");
+  if(!last_insert_id.has_data())
+    throw ActiveRecordException("Failed to obtain last insert id", __FILE__, __LINE__);
+  return boost::get<long long>(last_insert_id);
 }
 
 Row PostgresqlConnection::select_one( const string &query,
                                       const AttributeList &parameters ) {
   log( "PostgresqlConnection::select_one" );
   log( query );
-  PGresult * exec_result = PQexec( pgconn_, query.c_str() );
+  PGresult * exec_result = PQexec(pgconn_, query.c_str());
   bool success = is_error( exec_result );
   if( !success ) {
     log_error( exec_result );
@@ -130,6 +136,26 @@ RowSet PostgresqlConnection::select_all( const string &query,
                                          const AttributeList &parameters ) {
   RowSet results;
   return results;
+}
+
+Attribute PostgresqlConnection::select_value(
+    const string &query,
+    const AttributeList &parameters ) {
+  PGresult * exec_result = PQexec(pgconn_, query.c_str());
+  bool success = is_error(exec_result);
+  if(!success) {
+    log_error(exec_result);
+    PQclear(exec_result);
+    return Attribute();
+  }
+  int columns = PQnfields(exec_result);
+  if(columns == 0) {
+    PQclear(exec_result);
+    return Attribute();
+  }
+  Attribute value = Attribute::from_field(exec_result, 0);
+  PQclear(exec_result);
+  return value;
 }
 
 AttributeList PostgresqlConnection::select_values( const string &query,

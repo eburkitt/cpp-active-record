@@ -1,3 +1,6 @@
+// ensure CppConcat is defined
+#include <postgresql/c.h>
+#include <postgresql/catalog/pg_type.h>
 #include <active_record/attribute.h>
 #include <active_record/exception.h>
 
@@ -58,6 +61,23 @@ Attribute Attribute::from_field(sqlite3_stmt *pStmt, int i) {
     stringstream error;
     error << "Unhandled data type: " << type;
     throw ActiveRecordException(error.str(), __FILE__, __LINE__);
+  }
+}
+
+Attribute Attribute::from_field(PGresult * exec_result, int i) {
+  Oid type   = PQftype(exec_result, i);
+  char * raw = PQgetvalue(exec_result, 0, i);
+  switch(type) {
+    case INT2OID:
+    case INT4OID:
+      return atoi(raw);
+    case INT8OID:
+      return atoll(raw);
+    default: {
+      stringstream error;
+      error << "Value '" << raw << "' has unhandled data type " << type;
+      throw ActiveRecordException(error.str(), __FILE__, __LINE__);
+    }
   }
 }
 

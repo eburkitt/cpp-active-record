@@ -84,7 +84,7 @@ class PostgresqlQueriesTest : public ::testing::Test {
     name = "active_record_test_queries_database";
     postgresql_shell_drop_database(name, "template1", Q(PG_USER));
     postgresql_shell_create_database(name, "template1", Q(PG_USER));
-    postgresql_shell_command(name, Q(PG_USER), "CREATE TABLE foo (bar INTEGER)");
+    postgresql_shell_command(name, Q(PG_USER), "CREATE TABLE foo (id SERIAL, bar INTEGER)");
     connection.connect( options
                         ( "database", name.c_str() )
                         ( "username", Q(PG_USER) ) );
@@ -99,12 +99,28 @@ class PostgresqlQueriesTest : public ::testing::Test {
 };
 
 TEST_F(PostgresqlQueriesTest, Execute) {
-  connection.execute("INSERT INTO foo (bar) VALUES (1);");
+  connection.execute("CREATE TABLE bar ()");
 
-  list<string> output = postgresql_shell_command(name, Q(PG_USER), "SELECT * FROM foo");
+  ASSERT_TRUE(connection.table_exists("bar"));
+} 
+
+TEST_F(PostgresqlQueriesTest, Insert) {
+  long id = connection.insert("INSERT INTO foo (bar) VALUES (1);");
+
+  ASSERT_EQ(id, 1);
+  list<string> output = postgresql_shell_command(name, Q(PG_USER), "SELECT bar FROM foo");
   ASSERT_EQ(" bar \n", output.front());
   output.pop_front();
   output.pop_front();
   ASSERT_EQ("   1\n", output.front());
+} 
+
+TEST_F(PostgresqlQueriesTest, SelectValue) {
+  connection.execute("INSERT INTO foo (bar) VALUES (42);");
+
+  ActiveRecord::Attribute result = connection.select_value("SELECT bar FROM foo");
+  ASSERT_TRUE(result.has_data());
+  ASSERT_EQ(result.type(), ActiveRecord::integer);
+  ASSERT_EQ(boost::get<int>(result), 42);
 } 
 

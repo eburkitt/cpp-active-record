@@ -7,6 +7,7 @@
 #include <boost/variant.hpp>
 #include <boost/assign/list_of.hpp>
 #include <sqlite3.h>
+#include <postgresql/libpq-fe.h>
 
 #include <active_record/type.h>
 #include <active_record/date.h>
