@@ -15,10 +15,12 @@ bool Attribute::operator==( const Attribute& other ) const {
   case 0:
     return boost::get< int >( *this ) == boost::get< int >( other );
   case 1:
-    return boost::get< string >( *this ) == boost::get< string >( other );
+    return boost::get< long long >( *this ) == boost::get< long long >( other );
   case 2:
-    return boost::get< double >( *this ) == boost::get< double >( other );
+    return boost::get< string >( *this ) == boost::get< string >( other );
   case 3:
+    return boost::get< double >( *this ) == boost::get< double >( other );
+  case 4:
     return boost::get< Date >( *this ) == boost::get< Date >( other );
   default:
     throw ActiveRecordException( "Unexpected Attribute type", __FILE__, __LINE__ );
