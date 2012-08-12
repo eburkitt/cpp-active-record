@@ -68,6 +68,8 @@ Attribute Attribute::from_field(PGresult * exec_result, int i) {
   Oid type   = PQftype(exec_result, i);
   char * raw = PQgetvalue(exec_result, 0, i);
   switch(type) {
+    case CHAROID:
+      return raw;
     case INT2OID:
     case INT4OID:
       return atoi(raw);
