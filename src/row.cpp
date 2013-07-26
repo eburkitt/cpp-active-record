@@ -26,12 +26,12 @@ Row::Row( PGresult *exec_result, int index ) {
   }
 }
 
-Type Row::get_type( const string &name ) {
+Type::Type Row::get_type( const string &name ) {
   return attributes_[ name ].type();
 }
 
-bool Row::is_type( const string &name, Type type ) {
-  Type actual = attributes_[ name ].type();
+bool Row::is_type( const string &name, Type::Type type ) {
+  Type::Type actual = attributes_[ name ].type();
   return ( actual == type )? true : false;
 }
 

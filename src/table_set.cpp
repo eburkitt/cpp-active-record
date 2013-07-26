@@ -36,8 +36,8 @@ Table TableSet::table_data( Connection * connection,
     //   0 |  bar | INTEGER |       0 |            |  0
     string name      = it->get_text( "name" );
     string type_name = it->get_text( "type" );
-    ActiveRecord::Type type = ActiveRecord::to_type( type_name );
-    if( type == ActiveRecord::unknown ) {
+    ActiveRecord::Type::Type type = ActiveRecord::to_type( type_name );
+    if( type == Type::unknown ) {
       stringstream error;
       error << "Unknown type: " << type_name;
       throw ActiveRecordException( error.str(), __FILE__, __LINE__ );

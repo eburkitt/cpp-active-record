@@ -40,7 +40,7 @@ class Attribute : public AttributeType {
   Attribute( Date date ) :       AttributeType( date ), initialised_( true ) {}
 
   bool has_data() const { return initialised_; }
-  Type type() const;
+  Type::Type type() const;
   bool operator==( const Attribute& other ) const;
 
  private:

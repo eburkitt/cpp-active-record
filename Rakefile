@@ -56,7 +56,7 @@ Rake::Builder.new do | builder |
   builder.source_search_paths  = TEST_SOURCE_SEARCH_PATHS
   builder.installable_headers  = [ 'test' ]
   builder.objects_path         = "test/objects/#{ TEST_NAME }"
-  builder.include_paths        = [ 'include', 'test' ]
+  builder.include_paths        = [ 'include', 'test', '/usr/include/postgresql/9.1/server', '/usr/include/postgresql' ]
   builder.linker_options       = [ '-L.' ]
   builder.library_dependencies = [ 'gtest', "active_record_#{ name }", 'pq', 'sqlite3' ]
   builder.library_paths        = [ "." ]

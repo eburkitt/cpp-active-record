@@ -6,7 +6,7 @@
 
 namespace ActiveRecord {
 
-Type Attribute::type() const {
+Type::Type Attribute::type() const {
   int type_index = which();
   return index_to_type( type_index );
 }

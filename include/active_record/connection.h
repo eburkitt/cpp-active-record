@@ -32,6 +32,7 @@ class Connection {
 
   // Database Structure
   virtual bool  table_exists( const string &table_name )                                   = 0;
+
   // Transactions
   void          begin_transaction();
   void          commit();

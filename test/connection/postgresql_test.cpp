@@ -1,10 +1,15 @@
 #include "test_helper.h"
 #include <active_record/connection/postgresql.h>
 
+#include <postgresql/libpq-fe.h>
+#include <postgresql/c.h>
+#include <postgresql/catalog/pg_type.h>
+
 /* N.B. These tests assume that a 'template1' database exists
  *      and that the supplied user can access that database
  *      and can create new databases */
 
+/*
 class PostgresqlTest  : public ::testing::Test {
  protected:
   void connect(const string &name) {
@@ -100,7 +105,60 @@ TEST_F(PostgresqlTablesTest, TableExists) {
   ASSERT_TRUE(connection.table_exists( "foo" ));
   ASSERT_FALSE(connection.table_exists( "bar" ));
 } 
+*/
 
+class PostgresqlAttributesTest : public ::testing::Test {
+ protected:
+  virtual void SetUp() {
+    created_database = "active_record_test_database";
+    postgresql_shell_drop_database(created_database, "template1", Q(PG_USER));
+    postgresql_shell_create_database(created_database, "template1", Q(PG_USER));
+    string conninfo     = "dbname=" + created_database;
+    pgconn_             = PQconnectdb(conninfo.c_str());
+    string create_table = "       \
+CREATE TABLE foo (                \
+    id      SERIAL,               \
+    i       INTEGER,              \
+    bi      BIGINT,               \
+    cv      CHARACTER VARYING(100), \
+    t       TEXT,                 \
+    d       DATE                  \
+)                                 \
+";
+    string insert_foo = "       \
+INSERT INTO foo                   \
+  (i, bi, cv, t, d)               \
+VALUES                            \
+  (42, 13, '\\''Hello'\\'', '\\''World!'\\'', CURRENT_DATE) \
+";
+    postgresql_shell_command(created_database, Q(PG_USER), create_table);
+    postgresql_shell_command(created_database, Q(PG_USER), insert_foo);
+  }
+  virtual void TearDown() {
+    PQfinish(pgconn_);
+    postgresql_shell_drop_database(created_database, "template1", Q(PG_USER));
+  }
+ protected:
+  string   created_database;
+  PGconn * pgconn_;
+};
+
+TEST_F(PostgresqlAttributesTest, FromField) {
+  //string query = "SELECT id, i, bi, cv, t, d FROM foo";
+  string query = "SELECT id FROM foo";
+  PGresult * exec_result = PQexec(pgconn_, query.c_str());
+  cout << "PQresultStatus(exec_result): " << PQresultStatus(exec_result) << endl;
+  //ASSERT_EQ(PQresultStatus(exec_result), PGRES_COMMAND_OK);
+  ASSERT_EQ(INT8OID, PQftype(exec_result, 0));
+  //ASSERT_EQ(PQftype(exec_result, 1), INT4OID);
+  //ASSERT_EQ(PQftype(exec_result, 2), INT8OID);
+  //ASSERT_EQ(PQftype(exec_result, 3), CHAROID);
+  //ASSERT_EQ(PQftype(exec_result, 4), INT8OID);
+  Attribute id = Attribute::from_field(exec_result, 0);
+  PQclear(exec_result);
+} 
+
+/*
 class PostgresqlQueriesTest : public PostgresqlTest {
  protected:
   virtual void SetUp() {
@@ -131,7 +189,8 @@ TEST_F(PostgresqlQueriesTest, SelectValue) {
 
   ActiveRecord::Attribute result = connection.select_value("SELECT bar FROM foo");
   ASSERT_TRUE(result.has_data());
-  ASSERT_EQ(result.type(), ActiveRecord::integer);
+  ASSERT_EQ(result.type(), ActiveRecord::Type::integer);
   ASSERT_EQ(boost::get<int>(result), 42);
 } 
+*/
 

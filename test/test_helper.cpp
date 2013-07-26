@@ -119,14 +119,14 @@ void assert_field_name( Table &td,
 
 void assert_field_type( Table &td,
                         int field_index,
-                        ActiveRecord::Type type ) {
+                        ActiveRecord::Type::Type type ) {
   ASSERT_EQ( td.fields()[ field_index ].type(), type );
 }
 
 void assert_field( Table &td,
                    int field_index,
                    const string &name,
-                   ActiveRecord::Type type ) {
+                   ActiveRecord::Type::Type type ) {
   assert_field_name( td, field_index, name );
   assert_field_type( td, field_index, type );
 }

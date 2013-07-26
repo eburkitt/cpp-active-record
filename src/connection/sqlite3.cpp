@@ -135,22 +135,22 @@ void Sqlite3Connection::bind_parameters( sqlite3_stmt *ppStmt,
        it != parameters.end();
        ++it ) {
     switch( it->which() ) {
-    case integer: {
+    case Type::integer: {
       int value = boost::get< int >( *it );
       sqlite3_bind_int( ppStmt, i + 1, value );
       break;
     }
-    case text: {
+    case Type::text: {
       string value = boost::get< std::string >( *it );
       sqlite3_bind_text( ppStmt, i + 1, value.c_str(), value.size(), 0 );
       break;
     }
-    case floating_point: {
+    case Type::floating_point: {
       double value = boost::get< double >( *it );
       sqlite3_bind_double( ppStmt, i + 1, value );
       break;
     }
-    case date: {
+    case Type::date: {
       Date value = boost::get< Date >( *it );
       string s   = value.to_string();
       sqlite3_bind_text( ppStmt, i + 1, s.c_str(), s.size(), 0 );
